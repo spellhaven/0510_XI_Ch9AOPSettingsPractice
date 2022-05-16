@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+
+	<bean id = "logAop" class = "com.spellhaven.spring0510_11.LogAop"></bean>
+	<!-- 왜 이 Bean은 여기서 끝나는 것일까... 그리고 왜 이 bean이 제일 먼저고 그 다음이 aop 순서일까. 갑자기 헷갈. -->
+	<!-- 어. 알 거 같은데 말로는 설명이 않되. 일단 왜 얘가 가장 먼저냐? L14의 ref = "logAop" 때문인데... -->	
+		
+		<aop:config>
+			<aop:aspect id = "logger" ref = "logAop">
+				<aop:pointcut expression="within(com.spellhaven.spring0510_11.*)" id="publicM"/>
+				<aop:around method="loggerAop" pointcut-ref="publicM"/> <!-- 일단 around를 써 봤다. 앞뒤로 샌드위치하는 놈. -->
+			</aop:aspect>
+		</aop:config>	
+	
+	<bean id = "stu1" class = "com.spellhaven.spring0510_11.Student">
+		<property name="name">
+			<value>홍길동</value>
+		</property>
+		<property name="age">
+			<value>20살</value>
+		</property>
+		<property name="gradeNum">
+			<value>3학년</value>
+		</property>
+		<property name="classNum">
+			<value>8반</value>
+		</property>
+	</bean>	
+		
+	<bean id = "worker1" class = "com.spellhaven.spring0510_11.Worker">
+		<property name="name">
+			<value>이순신</value>
+		</property>
+		<property name="age">
+			<value>40살</value>
+		</property>
+		<property name="job">
+			<value>장군</value>
+		</property>
+	</bean>	
+	
+
+</beans>
